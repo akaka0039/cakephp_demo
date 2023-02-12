@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   mysql:
     restart: always
@@ -11,6 +11,8 @@ services:
       MYSQL_PASSWORD: secret
       MYSQL_DATABASE: my_app
       TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
   nginx:
     restart: always
     image: "nginx:mainline-alpine"
