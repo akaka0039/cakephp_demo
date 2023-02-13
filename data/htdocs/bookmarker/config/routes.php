@@ -62,7 +62,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
@@ -89,6 +89,48 @@ Router::scope('/', function (RouteBuilder $routes) {
      * routes you want in your application.
      */
     $routes->fallbacks(DashedRoute::class);
+
+    // Using a scoped route builder.
+    // Router::scope('/', function (RouteBuilder $routes) {
+    // $routes->connect('/', ['controller' => 'articles', 'action' => 'index']);
+        
+    // });
+
+    // $routes->connect('/articles/*', ['controller' => 'Articles', 'action' => 'view']);
+
+    // $routes->connect(
+    //     '/articles/:id',
+    //     ['controller' => 'Articles', 'action' => 'view']
+    // )
+    // ->setPatterns(['id' => '\d+'])
+    // ->setPass(['id']);
+
+    // Router::scope('/add', function (RouteBuilder $routes) {
+    //     $routes->connect('/', ['controller' => 'Articles', 'action' => 'add']);
+    // });
+    // Router::scope('/edit', function (RouteBuilder $routes) {
+    //     $routes->connect('/', ['controller' => 'Articles', 'action' => 'edit']);
+    // });
+
+    // $routes->connect('/edit/:id',
+    // ['controller' => 'Articles', 'action' => 'edit'],
+    // ['id' => '\d+', 'pass' => ['id']]
+    // );
+
+    // $routes->connect('/delete',
+    // ['controller' => 'Articles', 'action' => 'delete'],
+    // ['id' => '\d+', 'pass' => ['id']]
+    // );
+
+
+    // $routes->connect(
+    //     '/articles/:id',
+    //     ['controller' => 'Articles', 'action' => 'view']
+    // )
+    // ->setPatterns(['id' => '\d+'])
+    // ->setPass(['id']);
+    
+    
 });
 
 /*
@@ -103,10 +145,4 @@ Router::scope('/', function (RouteBuilder $routes) {
  * ```
  */
 
-// Using a scoped route builder.
-Router::scope('/', function (RouteBuilder $routes) {
-    $routes->connect('/', ['controller' => 'Articles', 'action' => 'index']);
-});
 
-// Using the static method.
-Router::connect('/', ['controller' => 'Articles', 'action' => 'index']);
