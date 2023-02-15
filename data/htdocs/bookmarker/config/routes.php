@@ -21,7 +21,7 @@ use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 use Cake\Routing\Route\DashedRoute;
-
+use Cake\Core\Plugin;
 /*
  * The default class to use for all routes
  *
@@ -45,39 +45,34 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
-Router::scope('/', function (RouteBuilder $routes) {
-    // Register scoped middleware for in scopes.
-    $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
-        'httpOnly' => true,
-    ]));
+    // Setting for root of articles 
+    Router::scope(
+            '/articles',
+            ['controller' => 'Articles'],
+            function ($routes) {
+                $routes->connect('/tagged/*', ['action' => 'tags']);
+        }
+    );
 
-    /*
-     * Apply a middleware to the current route scope.
-     * Requires middleware to be registered through `Application::routes()` with `registerMiddleware()`
-     */
-    $routes->applyMiddleware('csrf');
-
-    /*
+    Router::scope('/', function (RouteBuilder $routes) {
+    /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-     $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
-    /*
+    /**
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
-    /*
+    /**
      * Connect catchall routes for all controllers.
      *
      * Using the argument `DashedRoute`, the `fallbacks` method is a shortcut for
-     *
-     * ```
-     * $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);
-     * $routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);
-     * ```
+     *    `$routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'DashedRoute']);`
+     *    `$routes->connect('/:controller/:action/*', [], ['routeClass' => 'DashedRoute']);`
      *
      * Any route class can be used with this method, such as:
      * - DashedRoute
@@ -89,60 +84,4 @@ Router::scope('/', function (RouteBuilder $routes) {
      * routes you want in your application.
      */
     $routes->fallbacks(DashedRoute::class);
-
-    // Using a scoped route builder.
-    // Router::scope('/', function (RouteBuilder $routes) {
-    // $routes->connect('/', ['controller' => 'articles', 'action' => 'index']);
-        
-    // });
-
-    // $routes->connect('/articles/*', ['controller' => 'Articles', 'action' => 'view']);
-
-    // $routes->connect(
-    //     '/articles/:id',
-    //     ['controller' => 'Articles', 'action' => 'view']
-    // )
-    // ->setPatterns(['id' => '\d+'])
-    // ->setPass(['id']);
-
-    // Router::scope('/add', function (RouteBuilder $routes) {
-    //     $routes->connect('/', ['controller' => 'Articles', 'action' => 'add']);
-    // });
-    // Router::scope('/edit', function (RouteBuilder $routes) {
-    //     $routes->connect('/', ['controller' => 'Articles', 'action' => 'edit']);
-    // });
-
-    // $routes->connect('/edit/:id',
-    // ['controller' => 'Articles', 'action' => 'edit'],
-    // ['id' => '\d+', 'pass' => ['id']]
-    // );
-
-    // $routes->connect('/delete',
-    // ['controller' => 'Articles', 'action' => 'delete'],
-    // ['id' => '\d+', 'pass' => ['id']]
-    // );
-
-
-    // $routes->connect(
-    //     '/articles/:id',
-    //     ['controller' => 'Articles', 'action' => 'view']
-    // )
-    // ->setPatterns(['id' => '\d+'])
-    // ->setPass(['id']);
-    
-    
 });
-
-/*
- * If you need a different set of middleware or none at all,
- * open new scope and define routes there.
- *
- * ```
- * Router::scope('/api', function (RouteBuilder $routes) {
- *     // No $routes->applyMiddleware() here.
- *     // Connect API actions here.
- * });
- * ```
- */
-
-

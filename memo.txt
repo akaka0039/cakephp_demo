@@ -1,0 +1,2 @@
+Start Cakephp
+bin/cake server

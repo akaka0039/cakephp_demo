@@ -7,11 +7,14 @@
         <th>Action</th>
     </tr>
 
-<!-- Here's where we iterate through our $articles query object, printing out article info -->
-
+<!-- $articles クエリーオブジェクトを繰り返して(
+    コントローラーからの、記事を出力 -->
 <?php foreach ($articles as $article): ?>
     <tr>
         <td>
+            <!--  link() メソッドは、 
+            与えられたリンクテキスト(第１パラメーター) と 
+            URL (第２パラメーター) を元に HTML リンクを生成 -->
             <?= $this->Html->link($article->title, ['action' => 'view', $article->slug]) ?>
         </td>
         <td>
