@@ -23,4 +23,8 @@
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
+    <li><?= $this->Html->link(__('Upload Users as Csv'), ['action' => 'upload']) ?></li>
+
 </div>
+
+

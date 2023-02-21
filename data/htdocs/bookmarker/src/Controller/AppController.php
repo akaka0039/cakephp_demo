@@ -79,6 +79,7 @@ class AppController extends Controller
     public function isAuthorized($user)
     {
         // デフォルトでは、アクセスを拒否。
-        return false;
+        // 20220219_一時アクセス可能_テストのため
+        return true;
     }
 }
