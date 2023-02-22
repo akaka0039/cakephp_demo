@@ -257,4 +257,23 @@ class UsersController extends AppController
         
         return $errors;
     }
+
+    public function isAuthorized($user)
+    {
+        // ログイン者全員が使用することができる
+        $action = $this->request->getParam('action');
+        if (in_array($action, ['download', 'add', 'upload'])) {
+            return true;
+        }
+
+        // ユーザー所有者のみが編集・削除することができる
+        if (in_array($this->request->getParam('action'), ['edit', 'delete'])) {
+            $Id = (int)$this->request->getParam('pass.0');
+            if ($Id == $user['id']) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }  
 }

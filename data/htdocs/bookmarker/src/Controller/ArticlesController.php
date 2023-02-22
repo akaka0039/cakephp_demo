@@ -105,6 +105,7 @@ class ArticlesController extends AppController
     }
 
      /* 記事ページ対する認証機能 */
+    //  
     public function isAuthorized($user)
     {
         $action = $this->request->getParam('action');

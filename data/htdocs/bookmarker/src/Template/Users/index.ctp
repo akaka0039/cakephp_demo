@@ -9,6 +9,11 @@
  <span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
      <?= $this->Html->link(__('Download'), ['action' => 'download']) ?>
  </span>
+
+ <h3 class="large-10 medium-10 columns"><?= __('Users') ?></h3>
+ <span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
+     <?= $this->Html->link(__('logout'), ['action' => 'logout']) ?>
+ </span>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
@@ -17,6 +22,8 @@
         <li><?= $this->Html->link(__('New Article'), ['controller' => 'Articles', 'action' => 'add']) ?></li>
     </ul>
 </nav>
+
+
 
 <div class="users index large-9 medium-8 columns content">
     <h3><?= __('Users') ?></h3>
