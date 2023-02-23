@@ -58,7 +58,8 @@ class AppController extends Controller
             ],
             'loginAction' => [
                 'controller' => 'Users',
-                'action' => 'login'
+                'action' => 'index',
+                'index'
             ],'logoutRedirect' => [
                 'controller' => 'Articles',
                 'action' => 'index',
@@ -72,7 +73,7 @@ class AppController extends Controller
 
         // display アクションを許可して、PagesController が引き続き
         // 動作するように。また、読み取り専用のアクションを有効。（＝login不要）
-        $this->Auth->allow(['display', 'view', 'index']);
+        $this->Auth->allow(['display', 'view', 'index','login']);
         /*
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3/en/controllers/components/security.html
@@ -84,6 +85,7 @@ class AppController extends Controller
     {
         // 管理者はすべての操作にアクセスできます
     if (isset($user['role']) && $user['role'] === 'admin') {
+        var_dump($user);
         return true;
     }
         // デフォルトでは、アクセスを拒否。
