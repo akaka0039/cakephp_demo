@@ -1,17 +1,15 @@
 
 <h1 class="large-10 medium-10 columns">Articles</h1>
 <span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
-     <?= $this->Html->link(__('Send as a Excel'), ['controller' => 'Files','action' => 'exportAsExcel']) ?>
+     <?= $this->Html->link(__('save as a Excel'), ['controller' => 'Files','action' => 'exportAsExcel']) ?>
 </span>
 <span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
-     <?= $this->Html->link(__('Send as a Excel'), ['controller' => 'Files','action' => 'emailSend']) ?>
+     <?= $this->Html->link(__('send email'), ['controller' => 'Files','action' => 'emailSend']) ?>
 </span>
 <span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
      <?= $this->Html->link(__('login'), ['controller' => 'Users', 'action' => 'login']) ?>
 </span>
 <br>
-<!-- 問題：下記リンクを左寄せのため：pタグを挟むと左寄せになる -->
-<p>※</p>
 
 
 

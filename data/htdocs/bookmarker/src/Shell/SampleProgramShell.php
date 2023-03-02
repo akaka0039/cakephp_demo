@@ -1,40 +1,47 @@
 <?php
-namespace App\Controller;
-require 'vendor/autoload.php';
-
-use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
-
-
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+namespace App\Shell;
+ 
+use Cake\Console\Shell;
 use Cake\Mailer\Email;
-
-
-/**
- * File Controller
- *
- * 
- *
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
-class FilesController extends AppController
+use Cake\ORM\TableRegistry;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Controller\AppController;
+ 
+class SampleProgramShell extends Shell
 {
+    public function main()
+    {
+        $this->out('これはサンプルシェルです');
+    }
+ 
+    public function sampleParameter ($parameter)
+    {
+        $this->out('サンプル関数の引数は「' . $parameter . '」です。');
+    }
 
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Paginator');
-        $this->loadComponent('Flash');
-        $this->Articles = TableRegistry::get('articles');
+        $this->loadModel('Users');
     }
 
-    /* 全ての記事データをエクセルに書き込み、ダウンロードする */
-    public function exportAsExcel()
+    public function show()
     {
+        if (empty($this->args[0])) {
+            // CakePHP 3.2 より前なら error() を利用
+            return $this->abort('Please enter a id.');
+        }
+        $user = $this->Users->findById($this->args[0])->first();
+        $this->out(print_r($user, true));
+    }
+
+    // 記事情報をエクセルでダウンロードし、メール送信する
+    public function mail()
+    {
+
+        $this->Articles = TableRegistry::get('articles');
+
         $_body = $this->Articles->find()->all();
     
         $sheet = new Spreadsheet();
@@ -64,43 +71,24 @@ class FilesController extends AppController
             $i++;
         }
     
-        // ブラウザからダウンロード
+        // ダウンロード
         $fileName = '記事一覧リスト' . date('Y_m_d') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;');
         header("Content-Disposition: attachment; filename=\"{$fileName}\""); header('Cache-Control: max-age=0');
     
         $writer = IOFactory::createWriter($sheet, 'Xlsx');
-        $writer->save('php://output');
+        // フルパスで保存先指定する必要あり
+        // $writer->save('php://output');
         
-        $this->Flash->success(__('success to download'));
-        exit;
-    }
-
-
-    public function emailSend()
-    {
         $email = new Email('default');
         $email->setFrom(['me@example.com' => 'My Site'])
-            // 送り先
-            ->setTo('')
-            ->setSubject('Test')
-            // フルぱすに変更する必要あり
-            // ->addAttachments('src/image/articles_info.xlsx')
-            ->Send('My message');
-            
-            
-            $this->Flash->success(__('success to send a email'));
-            return $this->redirect(['controller' => 'Users','action' => 'index']);
+        // 送り先
+        ->setTo('me@example.com')
+        ->setSubject('Test')
+        // フルぱすに変更する必要あり
+        // ->addAttachments('src/image/articles_info.xlsx')
+        ->Send('My message');
+        
+        $this->out('成功です');
     }
-
-
-    
-    public function isAuthorized($user)
-    {
-        // 制作過程上の都合、全てのユーザが機能利用可能
-        return true;
-    }
-
-
-
 }
