@@ -6,19 +6,20 @@ use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-use App\Controller\AppController;
+use Cake\Http\Exception\NotFoundException;
  
 class SampleProgramShell extends Shell
 {
-    public function main()
-    {
-        $this->out('これはサンプルシェルです');
-    }
+    // demo
+    // public function main()
+    // {
+    //     $this->out('これはサンプルシェルです');
+    // }
  
-    public function sampleParameter ($parameter)
-    {
-        $this->out('サンプル関数の引数は「' . $parameter . '」です。');
-    }
+    // public function sampleParameter ($parameter)
+    // {
+    //     $this->out('サンプル関数の引数は「' . $parameter . '」です。');
+    // }
 
     public function initialize()
     {
@@ -41,16 +42,11 @@ class SampleProgramShell extends Shell
     {
 
         $this->Articles = TableRegistry::get('articles');
-
         $_body = $this->Articles->find()->all();
-    
         $sheet = new Spreadsheet();
-        
-        // レコードの取得数
-        $number = $_body->count();
     
         // テーブルのカラム名をセット
-        $columns = $this->Articles->schema()->columns();
+        $columns = $this->Articles->getSchema()->columns();
         $i = 2;
         foreach ( $columns as $column ) {
             $sheet->getActiveSheet()->setCellValueByColumnAndRow($i, 2, $column);
@@ -75,18 +71,23 @@ class SampleProgramShell extends Shell
         $fileName = '記事一覧リスト' . date('Y_m_d') . '.xlsx';
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;');
         header("Content-Disposition: attachment; filename=\"{$fileName}\""); header('Cache-Control: max-age=0');
+
+        // 例外処理
+        if (empty($fileName)) {
+        throw new NotFoundException(__('ファイルがうまく作成されませんでした'));
+        }
     
         $writer = IOFactory::createWriter($sheet, 'Xlsx');
         // フルパスで保存先指定する必要あり
-        // $writer->save('php://output');
+        $writer->save('');
         
-        $email = new Email('default');
+        $email = new Email('gmail');
         $email->setFrom(['me@example.com' => 'My Site'])
         // 送り先
-        ->setTo('me@example.com')
+        ->setTo('')
         ->setSubject('Test')
-        // フルぱすに変更する必要あり
-        // ->addAttachments('src/image/articles_info.xlsx')
+        // フルパスに変更する必要あり
+        ->addAttachments('')
         ->Send('My message');
         
         $this->out('成功です');

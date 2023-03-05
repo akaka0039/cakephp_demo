@@ -231,19 +231,19 @@ return [
                     'className' => 'Mail',
 
                 ],
+                // gmail設定、参考URL_20230304
+                // https://support.google.com/accounts/answer/185833
                 'gmail' => [
-                     // 'className' => 'Smtp',
-                    //     'host' => 'ssl://smtp.gmail.com',
-                    //     'port' => 465,
-                    //     'timeout' => 30,
-                    //     'username' => '@gmail.com',
-                    //     'password' => '',
-                    //     'transport' => 'Smtp',
-                    //     'client' => null,
-                    //     'tls' => null,
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    // gmail アドレス
+                    'username' => '',
+                    'password' => '',
+                    'className' => 'Smtp',
+                    'tls' => true
                 ],
-                'outlook' => [
-                  //     'host' => 'smtp-mail.outlook.com',
+                // 'outlook' => [
+                    //     'host' => 'smtp-mail.outlook.com',
                     //     'port' => 587,
                     //     'timeout' => 30,
                     //     'username' => 'email',
@@ -252,7 +252,7 @@ return [
                     //     'tls' => true,
                     //     'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
                     //     'SMTPSecure' => 'STARTTLS',
-       ],
+            // ]
     ],
 
     /*
@@ -274,6 +274,10 @@ return [
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
+        'gmail' => [
+            'transport' => 'gmail',
+            'from' => 'you@localhost',
+        ]
     ],
 
     /*
