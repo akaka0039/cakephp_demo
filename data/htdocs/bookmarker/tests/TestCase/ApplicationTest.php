@@ -22,6 +22,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
 use Cake\TestSuite\IntegrationTestCase;
 use InvalidArgumentException;
 
+
 /**
  * ApplicationTest class
  */
@@ -82,3 +83,4 @@ class ApplicationTest extends IntegrationTestCase
         $this->assertInstanceOf(RoutingMiddleware::class, $middleware->get(2));
     }
 }
+

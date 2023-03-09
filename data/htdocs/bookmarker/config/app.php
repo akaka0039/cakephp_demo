@@ -204,24 +204,55 @@ return [
      * 'YourTransport.php', where 'Your' is the name of the transport.
      */
     'EmailTransport' => [
-        'default' => [
-            'className' => MailTransport::class,
-            /*
-             * The keys host, port, timeout, username, password, client and tls
-             * are used in SMTP transports
-             */
-            'host' => 'localhost',
-            'port' => 25,
-            'timeout' => 30,
-            /*
-             * It is recommended to set these options through your environment or app_local.php
-             */
-            //'username' => null,
-            //'password' => null,
-            'client' => null,
-            'tls' => false,
-            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
-        ],
+                // 'default' => [
+                //     'className' => MailTransport::class,
+                //     /*
+                //      * The keys host, port, timeout, username, password, client and tls
+                //      * are used in SMTP transports
+                //      */
+                //     'host' => 'localhost',
+                //     'port' => 25,
+                //     'timeout' => 30,
+                //     /*
+                //      * It is recommended to set these options through your environment or app_local.php
+                //      */
+                //     //'username' => null,
+                //     //'password' => null,
+                //     'client' => null,
+                //     'tls' => false,
+                //     'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+                'default' => [
+                    'host' => 'localhost',
+                    'port' => 25,
+                    'username' => null,
+                    'password' => null,
+                    'client' => null,
+                    'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+                    'className' => 'Mail',
+
+                ],
+                // gmail設定、参考URL_20230304
+                // https://support.google.com/accounts/answer/185833
+                'gmail' => [
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    // gmail アドレス
+                    'username' => '',
+                    'password' => '',
+                    'className' => 'Smtp',
+                    'tls' => true
+                ],
+                // 'outlook' => [
+                    //     'host' => 'smtp-mail.outlook.com',
+                    //     'port' => 587,
+                    //     'timeout' => 30,
+                    //     'username' => 'email',
+                    //     'password' => 'password',
+                    //     'client' => null,
+                    //     'tls' => true,
+                    //     'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
+                    //     'SMTPSecure' => 'STARTTLS',
+            // ]
     ],
 
     /*
@@ -243,6 +274,10 @@ return [
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
         ],
+        'gmail' => [
+            'transport' => 'gmail',
+            'from' => 'you@localhost',
+        ]
     ],
 
     /*
