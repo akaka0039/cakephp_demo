@@ -1,5 +1,7 @@
 <h1>Articles</h1>
 <p><?= $this->Html->link("Add Article", ['action' => 'add']) ?></p>
+<br>
+<p><?= $this->Html->link(__('check users'), ['controller' => 'Users', 'action' => 'index']) ?></p>
 <table>
     <tr>
         <th>Title</th>

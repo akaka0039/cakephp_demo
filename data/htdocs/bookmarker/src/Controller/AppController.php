@@ -59,6 +59,10 @@ class AppController extends Controller
             'loginAction' => [
                 'controller' => 'Users',
                 'action' => 'login'
+            ],'logoutRedirect' => [
+                'controller' => 'Articles',
+                'action' => 'index',
+                'index'
             ],
             // コントローラーで isAuthorized を使用
             'authorize' => ['Controller'],
@@ -67,7 +71,7 @@ class AppController extends Controller
         ]);
 
         // display アクションを許可して、PagesController が引き続き
-        // 動作するように。また、読み取り専用のアクションを有効。
+        // 動作するように。また、読み取り専用のアクションを有効。（＝login不要）
         $this->Auth->allow(['display', 'view', 'index']);
         /*
          * Enable the following component for recommended CakePHP security settings.
@@ -78,8 +82,11 @@ class AppController extends Controller
 
     public function isAuthorized($user)
     {
-        // デフォルトでは、アクセスを拒否。
-        // 20220219_一時アクセス可能_テストのため
+        // 管理者はすべての操作にアクセスできます
+    if (isset($user['role']) && $user['role'] === 'admin') {
         return true;
+    }
+        // デフォルトでは、アクセスを拒否。
+        return false;
     }
 }
