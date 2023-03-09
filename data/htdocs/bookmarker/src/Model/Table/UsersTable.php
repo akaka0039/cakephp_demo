@@ -84,4 +84,13 @@ class UsersTable extends Table
 
         return $rules;
     }
+
+    public function findAuth(\Cake\ORM\Query $query, array $options)
+    {
+        $query
+            ->select(['id', 'email', 'password', 'role']) // roleがない
+            ->where(['Users.deleted IS' => NULL]);
+
+        return $query;
+    }
 }

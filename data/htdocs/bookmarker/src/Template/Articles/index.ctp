@@ -2,6 +2,10 @@
 <p><?= $this->Html->link("Add Article", ['action' => 'add']) ?></p>
 <br>
 <p><?= $this->Html->link(__('check users'), ['controller' => 'Users', 'action' => 'index']) ?></p>
+<span class="large-2 medium-2 columns" style="border:thick double #258D97;text-align:center;">
+     <?= $this->Html->link(__('login'), ['controller' => 'Users', 'action' => 'login']) ?>
+ </span>
+
 <table>
     <tr>
         <th>Title</th>

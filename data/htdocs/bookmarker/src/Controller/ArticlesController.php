@@ -108,8 +108,13 @@ class ArticlesController extends AppController
     //  
     public function isAuthorized($user)
     {
+        // adminは全て編集可能
+        if($user['role'] == 'admin'){
+            return true;
+        }
+        
         $action = $this->request->getParam('action');
-        // add および tags アクションは、常にログインしているユーザーには許可
+        // add および tags アクションは、常にログインしているユーザー[user]には許可
         if (in_array($action, ['add', 'tags'])) {
             return true;
         }

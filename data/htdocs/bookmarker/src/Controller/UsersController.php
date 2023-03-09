@@ -111,7 +111,8 @@ class UsersController extends AppController
         $user = $this->Auth->identify();
         if ($user) {
             $this->Auth->setUser($user);
-            return $this->redirect($this->Auth->redirectUrl());
+            $this->Flash->success('ログインに成功しました');
+            return $this->redirect($this->Auth->redirectUrl("http://localhost:8765/articles/index"));
         }
         $this->Flash->error('ユーザー名またはパスワードが不正です。');
     }
@@ -260,6 +261,13 @@ class UsersController extends AppController
 
     public function isAuthorized($user)
     {
+        
+        $user = $this->Users->get($user['id']);
+        // adminは全て編集可能
+        if($user['role'] == 'admin'){
+            return true;
+        }
+
         // ログイン者全員が使用することができる
         $action = $this->request->getParam('action');
         if (in_array($action, ['download', 'add', 'upload'])) {
