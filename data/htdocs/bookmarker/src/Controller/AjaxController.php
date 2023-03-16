@@ -16,10 +16,11 @@ class AjaxController extends AppController
 
   public function add(){
     $data = $this->request->data('request');
-    var_dump($data);
+    
+    sleep(2);
     $connection = ConnectionManager::get('default');
     $connection->insert('ajax', [ 'text' => $data ]);
- 
+    
   }
   public function index()
   {
