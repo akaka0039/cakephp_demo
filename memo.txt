@@ -1,9 +1,11 @@
 Start Cakephp
 bin/cake server
 
-
+# how to login into mysql
+ mysql -u root -p
 
 # To add a new column in database
 ALTER TABLE users ADD image LONGBLOB ;
 ALTER TABLE users ADD role text;
 ALTER TABLE users DROP COLUMN image;
+
